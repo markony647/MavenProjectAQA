@@ -20,6 +20,11 @@ public class InputReader {
         return this.scanner.nextLine();
     }
 
+    public String readEmailFromConsole() {
+        System.out.println("Enter Person email: ");
+        return this.scanner.nextLine();
+    }
+
 
     public String askAndReadUserChoise() {
 
@@ -37,4 +42,5 @@ public class InputReader {
         System.out.println("Write your search parameter (name or age):");
         return this.scanner.nextLine();
     }
+
 }

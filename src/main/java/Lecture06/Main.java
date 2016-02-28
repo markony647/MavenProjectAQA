@@ -13,14 +13,15 @@ public class Main {
               case "1":
                   String name = inputReader.readNameFromConsole();
                   String rawAge = inputReader.readAgeFromConsole();
-                  if (Validator.isValidPerson(name, rawAge)) {
+                  String email = inputReader.readEmailFromConsole();
+                  if (Validator.isValidPerson(name, rawAge, email)) {
                       int age = Converter.convertFromStringToInt(rawAge);
-                      Person person = new Person(name, age);
+                      Person person = new Person(name, age, email);
                       personsContainer.addPersonToArray(person);
                       userChoise = inputReader.askAndReadUserChoise();
                   } else {
-                      System.out.println("Please, enter correct name and age. The Person with name " + name + " and age "
-                              + rawAge + " can't be added.");
+                      System.out.println("Please, enter correct name, age and email. The Person with name " + name + ", age "
+                              + rawAge + " and email " + email + " can't be added.");
                   }
                   break;
 
@@ -31,7 +32,7 @@ public class Main {
                   break;
 
               default:
-                  System.out.println("Enter please correct search query (name or age allowed).");
+                  System.out.println("Enter please correct search query (name, age or email allowed).");
                   userChoise = inputReader.askAndReadUserChoise();
                   break;
           }

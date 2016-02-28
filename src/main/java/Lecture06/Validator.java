@@ -1,4 +1,5 @@
 package Lecture06;
+import java.util.regex.*;
 
 public class Validator {
 
@@ -28,8 +29,16 @@ public class Validator {
     }
 
 
-    public static boolean isValidPerson(String name, String age) {
-        return ((isCharactersOnly(name) && isNumeric(age)) && (isCorrectAgeRange(age)));
+    public static boolean isValidPerson(String name, String age, String email) {
+        return ((isCharactersOnly(name) && isNumeric(age)) && (isCorrectAgeRange(age)) && (isValidEmail(email)));
+    }
+
+    public static boolean isValidEmail(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\." +
+                            "[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        Pattern p = Pattern.compile(ePattern);
+        Matcher m = p.matcher(email);
+        return m.matches();
     }
 
 }

@@ -3,6 +3,9 @@ package Lecture06Test;
 import Lecture06.Converter;
 import org.junit.Test;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static org.junit.Assert.assertEquals;
 
 public class ValidatorTest {
@@ -112,5 +115,37 @@ public class ValidatorTest {
     public void shouldReturnFalseForBothIncorrectParameters() {
         boolean inValidPerson = isValidPerson("Sam7832@#$", "fifty five");
         assertEquals(inValidPerson, false);
+    }
+
+    public static boolean isValidEmail(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\." +
+                "[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        Pattern p = Pattern.compile(ePattern);
+        Matcher m = p.matcher(email);
+        return m.matches();
+    }
+
+    @Test
+    public void shouldReturnTrue() {
+        boolean email = isValidEmail("example@gmail.com");
+        assertEquals(email, true);
+    }
+
+    @Test
+    public void shouldReturnFalseWithoutAtSignInEmail() {
+        boolean email = isValidEmail("example.gmail.com");
+        assertEquals(email, false);
+    }
+
+    @Test
+    public void shouldReturnFalseWithoutDot() {
+        boolean email = isValidEmail("example@gmailcom");
+        assertEquals(email, false);
+    }
+
+    @Test
+    public void shouldReturnFalseNotEmailFormat() {
+        boolean email = isValidEmail("examplegmailcom");
+        assertEquals(email, false);
     }
 }

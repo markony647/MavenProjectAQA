@@ -15,8 +15,8 @@ public class PersonContainerTest {
 
     public void findPersonByName(String searchQuery) {
         ArrayList<Person> arrayOfFoundPersons = new ArrayList<>();
-        arrayOfPersons.add(new Person("Ivan", 25));
-        arrayOfPersons.add(new Person("Sam", 43));
+        arrayOfPersons.add(new Person("Ivan", 25, "dsfjdf@gmail.com"));
+        arrayOfPersons.add(new Person("Sam", 43, "dsfjdf@gmail.com"));
 
         searchQuery = searchQuery.toLowerCase();
 
@@ -59,7 +59,7 @@ public class PersonContainerTest {
     }
 
     public void findPersonByAge(String searchQuery) {
-        arrayOfPersons.add(new Person("Tim", 55));
+        arrayOfPersons.add(new Person("Tim", 55, "dsfjdf@gmail.com"));
         int age = Converter.convertFromStringToInt(searchQuery);
         System.out.println("SEARCH RESULTS:\n");
 
@@ -91,6 +91,36 @@ public class PersonContainerTest {
         int age = arrayOfFoundPersons.get(0).getAge();
     }
 
+    public void findPersonByEmail(String email) {
+        arrayOfPersons.add(new Person("Ivan", 25, "example@gmail.com"));
+        System.out.println("Searching by email...");
 
+        System.out.println("SEARCH RESULTS:\n");
 
+        for(Person p : arrayOfPersons) {
+            if(p.getEmail().equalsIgnoreCase(email)) {
+                arrayOfFoundPersons.add(p);
+                System.out.println(p.getName().toUpperCase() + " found (" + p.getAge() + " years old. " +
+                        "Email: " + p.getEmail() + "\n");
+            }
+        }
+
+    }
+
+    @Test
+    public void shouldFindIvanByEmail() {
+        findPersonByEmail("example@gmail.com");
+        String email = arrayOfFoundPersons.get(0).getEmail();
+        String name = arrayOfFoundPersons.get(0).getName();
+        int age = arrayOfFoundPersons.get(0).getAge();
+        assertEquals(email, "example@gmail.com");
+        assertEquals(name, "Ivan");
+        assertEquals(age, 25);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void searchShouldFail() {
+        findPersonByEmail("notexisting@gmail.com");
+        String email = arrayOfFoundPersons.get(0).getEmail();
+    }
 }
