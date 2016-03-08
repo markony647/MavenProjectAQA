@@ -1,17 +1,19 @@
 package Lecture06;
 
 
+import Lecture06.repository.PersonDao;
+
 import java.util.ArrayList;
 
 public class PersonsContainer implements Searchable {
+
+    PersonDao personDao = new PersonDao();
 
     ArrayList<Person>arrayOfPersons = new ArrayList<>();
 
 
     public void addPersonToArray(Person person){
-        System.out.println("The person " + person.getName() + " was added to the storage.");
-        arrayOfPersons.add(person);
-
+        personDao.add(person);
     }
 
 

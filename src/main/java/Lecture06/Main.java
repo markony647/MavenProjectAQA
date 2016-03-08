@@ -19,6 +19,7 @@ public class Main {
                       Person person = new Person(name, age, email);
                       personsContainer.addPersonToArray(person);
                       userChoise = inputReader.askAndReadUserChoise();
+
                   } else {
                       System.out.println("Please, enter correct name, age and email. The Person with name " + name + ", age "
                               + rawAge + " and email " + email + " can't be added.");
