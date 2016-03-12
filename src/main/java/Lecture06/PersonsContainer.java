@@ -1,108 +1,65 @@
 package Lecture06;
 
 
+import Lecture06.repository.Dao;
 import Lecture06.repository.PersonDao;
 
 import java.util.ArrayList;
 
-public class PersonsContainer implements Searchable {
+public class PersonsContainer implements Dao {
 
     PersonDao personDao = new PersonDao();
 
-    ArrayList<Person>arrayOfPersons = new ArrayList<>();
 
-
-    public void addPersonToArray(Person person){
-        personDao.add(person);
+    public void addPersonToDB(Person person){
+        personDao.addPersonToDB(person);
     }
 
 
-    public void printArray() {
+    public void printResult(ArrayList<Person> resultSet) {
+        if(resultSet.isEmpty()) {
+            System.out.println("Nothing was found");
+        } else {
         int i = 1;
-        for(Person p : arrayOfPersons){
-            System.out.println(i + ". Person  is " + p.getName() + " " + p.getAge() +
+        for(Person p : resultSet) {
+            System.out.println("Search results:\n" + i + ". Person  is " + p.getName() + " " + p.getAge() +
                     " years old (email: " + p.getEmail() + ").");
             i++;
+            }
         }
     }
 
 
-    public void searchPersonByUserQuery(String searchQuery) {
+    public ArrayList<Person> searchPersonByUserQuery(String searchQuery) {
 
         if(Validator.isCharactersOnly(searchQuery)) {
-            findPersonByName(searchQuery);
+            return findPersonByName(searchQuery);
         } else if(Validator.isNumeric(searchQuery)) {
-            findPersonByAge(searchQuery);
+            return findPersonByAge(searchQuery);
         } else if(Validator.isValidEmail(searchQuery)) {
-            findPersonByEmail(searchQuery);
+            return findPersonByEmail(searchQuery);
         } else {
             System.out.println("Enter please correct query parameter");
         }
+        return null;
     }
 
 
     @Override
-    public void findPersonByName(String searchQuery) {
-        System.out.println("Searching by name....");
-
-        ArrayList<Person> arrayOfFoundPersons = new ArrayList<>();
-
-        searchQuery = searchQuery.toLowerCase();
-
-        System.out.println("SEARCH RESULTS:\n");
-
-            for (Person p : arrayOfPersons) {
-                if (p.getName().toLowerCase().equals(searchQuery)) {
-                    arrayOfFoundPersons.add(p);
-                    System.out.println(p.getName().toUpperCase() + " found (" + p.getAge() + " years old. " +
-                            "Email: " + p.getEmail() + "\n");
-                }
-             }
-        if(arrayOfFoundPersons.isEmpty()) {
-            System.out.println("Nothing were found....");
-
-        }
-
+    public ArrayList<Person> findPersonByName(String searchQuery) {
+        return personDao.findPersonByName(searchQuery);
     }
 
 
     @Override
-    public void findPersonByAge(String searchQuery) {
-        System.out.println("Searching by age...");
+    public ArrayList<Person> findPersonByAge(String searchQuery) {
+       return personDao.findPersonByAge(searchQuery);
 
-        ArrayList<Person> arrayOfFoundPersons = new ArrayList<>();
-
-        int age = Converter.convertFromStringToInt(searchQuery);
-        System.out.println("SEARCH RESULTS:\n");
-
-            for (Person p : arrayOfPersons) {
-                if (p.getAge() == age) {
-                    arrayOfFoundPersons.add(p);
-                    System.out.println(p.getName().toUpperCase() + " found (" + p.getAge() + " years old. " +
-                            "Email: " + p.getEmail() + "\n");
-                }
-            }
-        if(arrayOfFoundPersons.isEmpty()) {
-            System.out.println("Nothing were found....");
-
-            }
-        }
+    }
 
     @Override
-    public void findPersonByEmail(String email) {
-        System.out.println("Searching by email...");
-
-        ArrayList<Person> arrayOfFoundPersons = new ArrayList<>();
-        System.out.println("SEARCH RESULTS:\n");
-
-        for(Person p : arrayOfPersons) {
-            if(p.getEmail().equalsIgnoreCase(email)) {
-                arrayOfFoundPersons.add(p);
-                System.out.println(p.getName().toUpperCase() + " found (" + p.getAge() + " years old. " +
-                        "Email: " + p.getEmail() + "\n");
-            }
-        }
-
+    public ArrayList<Person> findPersonByEmail(String email) {
+        return personDao.findPersonByEmail(email);
     }
 
 }

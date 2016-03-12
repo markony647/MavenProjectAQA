@@ -39,7 +39,7 @@ public class InputReader {
     }
 
     public String readSearchQueryFromConsole() {
-        System.out.println("Write your search parameter (name or age):");
+        System.out.println("Write your search parameter (name, age or email):");
         return this.scanner.nextLine();
     }
 

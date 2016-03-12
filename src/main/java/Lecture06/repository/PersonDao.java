@@ -1,6 +1,7 @@
 package Lecture06.repository;
 
 
+import static Lecture06.Converter.*;
 import Lecture06.Person;
 import org.apache.commons.dbutils.QueryRunner;
 
@@ -14,7 +15,7 @@ public class PersonDao implements Dao {
     QueryRunner run = new QueryRunner();
 
     @Override
-    public void add(Person person) {
+    public void addPersonToDB(Person person) {
         try {
             run.update(connection,
                     "INSERT INTO `devnotebookapp`.`persons`(`name`, `age`, `email`) VALUES (?, ?, ?)",
@@ -23,34 +24,36 @@ public class PersonDao implements Dao {
             throw new RuntimeException(e);
         }
 
-        System.out.println("The person " + person.getName() + " was added to the storage.");
+        System.out.println("The person " + person.getName() + " was added to the DB.");
     }
 
-//    @Override
-//    public ArrayList<Person> findPersonByName(String name) {
-//        try {
-//            return run.query(connection,
-//                    "SELECT * FROM persons WHERE name = ?", new UsersRowMapper() );
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-
+    @Override
     public ArrayList<Person> findPersonByName(String name) {
-        return null;
+        try {
+            return run.query(connection, "SELECT * FROM persons WHERE name = ?", new UsersRowMapper(), name);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-
 
 
 
     @Override
     public ArrayList<Person> findPersonByAge(String age) {
-        return null;
+        try {
+            return run.query(connection, "SELECT * FROM persons WHERE age = ?", new UsersRowMapper(),
+                    convertFromStringToInt(age));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public ArrayList<Person> findPersonByEmail(String email) {
-        return null;
+        try {
+            return run.query(connection, "SELECT * FROM persons WHERE email = ?", new UsersRowMapper(), email);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

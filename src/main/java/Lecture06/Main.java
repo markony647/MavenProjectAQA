@@ -1,5 +1,7 @@
 package Lecture06;
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -17,7 +19,7 @@ public class Main {
                   if (Validator.isValidPerson(name, rawAge, email)) {
                       int age = Converter.convertFromStringToInt(rawAge);
                       Person person = new Person(name, age, email);
-                      personsContainer.addPersonToArray(person);
+                      personsContainer.addPersonToDB(person);
                       userChoise = inputReader.askAndReadUserChoise();
 
                   } else {
@@ -28,7 +30,8 @@ public class Main {
 
               case "2":
                   String searchQuery = inputReader.readSearchQueryFromConsole();
-                  personsContainer.searchPersonByUserQuery(searchQuery);
+                  ArrayList<Person> foundPersons = personsContainer.searchPersonByUserQuery(searchQuery);
+                  personsContainer.printResult(foundPersons);
                   userChoise = inputReader.askAndReadUserChoise();
                   break;
 
@@ -40,7 +43,6 @@ public class Main {
 
        }
 
-        personsContainer.printArray();
         System.out.println("Exit");
     }
 }

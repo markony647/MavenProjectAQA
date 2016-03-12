@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public interface Dao {
 
-    void add(Person person);
+    void addPersonToDB(Person person);
 
     ArrayList<Person> findPersonByName(String name);
 
